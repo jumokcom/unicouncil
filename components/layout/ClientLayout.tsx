@@ -10,9 +10,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
-import Header from './Header';
-import MobileHeader from './MobileHeader';
-import Sidebar from './Sidebar';
+import Header from '@/components/layout/Header';
+import MobileHeader from '@/components/layout/MobileHeader';
+import Sidebar from '@/components/layout/Sidebar';
 
 const excludeLayoutPaths = ['/login', '/auth/callback'];
 
