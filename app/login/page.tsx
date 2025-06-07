@@ -8,40 +8,35 @@
 
 "use client";
 import { supabase } from "@/lib/supabase";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+interface ProfileData {
+  name?: string;
+  department?: string;
+  student_id?: string;
+  birth_date?: string;
+  phone?: string;
+  gender?: string;
+}
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // 프로필 완성 여부 체크 함수 (이메일 제외, 5개 필드)
-  const checkProfileComplete = (profile: any) => {
+  const checkProfileComplete = useCallback((profile: ProfileData | null) => {
     return profile?.name && 
            profile?.department && 
            profile?.student_id && 
            profile?.birth_date && 
            profile?.phone && 
            profile?.gender;
-  };
-
-  // 로그인 상태 체크 (페이지 로드 시)
-  useEffect(() => {
-    const checkAuthState = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session) {
-        // 이미 로그인된 상태면 프로필 체크 후 리다이렉트
-        await handlePostLogin(session.user.id);
-      }
-    };
-    
-    checkAuthState();
   }, []);
 
   // 로그인 후 처리 함수
-  const handlePostLogin = async (userId: string) => {
+  const handlePostLogin = useCallback(async (userId: string) => {
     try {
       // users 테이블에서 프로필 정보 조회 (이메일 제외)
       const { data: profile, error } = await supabase
@@ -65,7 +60,21 @@ export default function LoginPage() {
     } catch (error) {
       console.error('로그인 후 처리 오류:', error);
     }
-  };
+  }, [router, checkProfileComplete]);
+
+  // 로그인 상태 체크 (페이지 로드 시)
+  useEffect(() => {
+    const checkAuthState = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session) {
+        // 이미 로그인된 상태면 프로필 체크 후 리다이렉트
+        await handlePostLogin(session.user.id);
+      }
+    };
+    
+    checkAuthState();
+  }, [handlePostLogin]);
 
   const handleKakaoLogin = async () => {
     try {

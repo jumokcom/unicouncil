@@ -10,11 +10,20 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
+interface ProfileData {
+  name?: string;
+  department?: string;
+  student_id?: string;
+  birth_date?: string;
+  phone?: string;
+  gender?: string;
+}
+
 export default function AuthCallbackPage() {
   const router = useRouter();
 
   // 프로필 완성 여부 체크 함수 (이메일 제외, 5개 필드)
-  const checkProfileComplete = (profile: any) => {
+  const checkProfileComplete = (profile: ProfileData | null) => {
     return profile?.name && 
            profile?.department && 
            profile?.student_id && 

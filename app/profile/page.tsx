@@ -11,11 +11,21 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { User } from '@supabase/supabase-js';
+
+interface FormData {
+  name: string;
+  department: string;
+  student_id: string;
+  birth_date: string;
+  phone: string;
+  gender: string;
+}
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const [formData, setFormData] = useState({
+  const [user, setUser] = useState<User | null>(null);
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     department: '',
     student_id: '',
@@ -83,7 +93,7 @@ export default function ProfilePage() {
       const { error } = await supabase
         .from('users')
         .upsert({
-          id: user.id,
+          id: user?.id,
           ...formData,
           updated_at: new Date().toISOString()
         });
@@ -105,7 +115,7 @@ export default function ProfilePage() {
   };
 
   // 입력 값 변경 처리
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
