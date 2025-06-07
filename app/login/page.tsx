@@ -5,50 +5,50 @@
  * Supabase 기능: Auth (signInWithOAuth)
  */
 
-'use client'
-import { supabase } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import Image from 'next/image'
+"use client";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Image from "next/image";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleKakaoLogin = async () => {
     try {
-      setLoading(true)
-      
+      setLoading(true);
+
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'kakao',
+        provider: "kakao",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
-      })
-      
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
       if (error) {
-        console.error('로그인 오류:', error.message)
-        alert('로그인 중 오류가 발생했습니다.')
+        console.error("로그인 오류:", error.message);
+        alert("로그인 중 오류가 발생했습니다.");
       }
     } catch (error) {
-      console.error('카카오 로그인 오류:', error)
-      alert('로그인 중 오류가 발생했습니다.')
+      console.error("카카오 로그인 오류:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center px-6"
       style={{
-        background: 'linear-gradient(to bottom right, #68e1fe, #ccfff0)'
+        background: "linear-gradient(to bottom right, #68e1fe, #ccfff0)",
       }}
     >
       <div className="text-center text-gray-800 max-w-sm w-full">
         {/* 로고 */}
         <div className="mb-6 md:mb-8">
-          <Image 
+          <Image
             src="/images/coma-logo.png"
             alt="COMA 로고"
             width={250}
@@ -56,7 +56,7 @@ export default function LoginPage() {
             className="mx-auto mb-4 md:mb-6"
             priority
           />
-          
+
           {/* 동아리 정보 */}
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-800">
             COMA
@@ -64,9 +64,9 @@ export default function LoginPage() {
           <p className="text-base md:text-lg text-gray-700 mb-1">
             순천대학교 코딩동아리
           </p>
-          <p 
+          <p
             className="text-lg md:text-xl font-semibold mb-8 md:mb-10"
-            style={{ color: '#68e1fe' }}
+            style={{ color: "#68e1fe" }}
           >
             CODING MASTER
           </p>
@@ -89,21 +89,22 @@ export default function LoginPage() {
               border-2
             "
             style={{
-              background: loading 
-                ? '#b2fff9' 
-                : 'linear-gradient(to right, #68e1fe, #b2fff9)',
-              borderColor: '#000000' // 검정색 테두리
+              background: loading
+                ? "#b2fff9"
+                : "linear-gradient(to right, #68e1fe, #b2fff9)",
+              borderColor: "#000000", // 검정색 테두리
             }}
             onMouseEnter={(e) => {
               if (!loading) {
-                e.currentTarget.style.background = '#b2fff9'
-                e.currentTarget.style.borderColor = '#333333' // 호버시 진한 검정
+                e.currentTarget.style.background = "#b2fff9";
+                e.currentTarget.style.borderColor = "#333333"; // 호버시 진한 검정
               }
             }}
             onMouseLeave={(e) => {
               if (!loading) {
-                e.currentTarget.style.background = 'linear-gradient(to right, #68e1fe, #b2fff9)'
-                e.currentTarget.style.borderColor = '#000000' // 원래 검정
+                e.currentTarget.style.background =
+                  "linear-gradient(to right, #68e1fe, #b2fff9)";
+                e.currentTarget.style.borderColor = "#000000"; // 원래 검정
               }
             }}
           >
@@ -127,5 +128,5 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
-  )
+  );
 }
