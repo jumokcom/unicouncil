@@ -1,7 +1,7 @@
 /**
- * 역할: 인증 상태별 헤더 버튼 컴포넌트
- * 연결: components/layout/Header.tsx, MobileHeader.tsx에서 사용
- * 의존성: @supabase/supabase-js, Next.js router
+ * 역할: 인증 상태별 버튼 컴포넌트
+ * 연결: components/layout/MainHeader.tsx, MobileHeader.tsx에서 사용
+ * 의존성: @supabase/supabase-js, lib/supabase.ts
  * Supabase 기능: Auth (로그아웃)
  */
 
@@ -9,14 +9,19 @@
 import { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 
-interface AuthButtonsProps {
+interface AuthenticationButtonsProps {
   user: User | null;
   loading: boolean;
   onNavigate: (path: string) => void;
   isMobile?: boolean;
 }
 
-export default function AuthButtons({ user, loading, onNavigate, isMobile = false }: AuthButtonsProps) {
+export default function AuthenticationButtons({ 
+  user, 
+  loading, 
+  onNavigate, 
+  isMobile = false 
+}: AuthenticationButtonsProps) {
   // 로그아웃 처리
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -47,28 +52,25 @@ export default function AuthButtons({ user, loading, onNavigate, isMobile = fals
     
     return (
       <div className={isMobile ? "" : "ml-auto flex items-center space-x-4"}>
-        <button 
-          onClick={() => onNavigate('/login')}
-          className={loginButtonClass}
-        >
+        <button onClick={() => onNavigate('/login')} className={loginButtonClass}>
           로그인
         </button>
       </div>
     );
   }
 
-  // 로그인한 상태
+  // 로그인한 상태 - 모바일
   if (isMobile) {
     return (
       <div className="flex items-center space-x-2">
         <button 
-          onClick={() => onNavigate('/profile')}
+          onClick={() => onNavigate('/profile')} 
           className="text-white text-sm hover:text-gray-200"
         >
           프로필
         </button>
         <button 
-          onClick={handleLogout}
+          onClick={handleLogout} 
           className="text-white text-sm hover:text-gray-200"
         >
           로그아웃
@@ -77,16 +79,17 @@ export default function AuthButtons({ user, loading, onNavigate, isMobile = fals
     );
   }
 
+  // 로그인한 상태 - PC
   return (
     <div className="ml-auto flex items-center space-x-4">
       <button 
-        onClick={() => onNavigate('/profile')}
+        onClick={() => onNavigate('/profile')} 
         className="text-sm text-gray-600 hover:text-gray-800"
       >
         프로필
       </button>
       <button 
-        onClick={handleLogout}
+        onClick={handleLogout} 
         className="text-sm text-red-600 hover:text-red-800"
       >
         로그아웃

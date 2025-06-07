@@ -130,7 +130,7 @@ export default function ProfileForm() {
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">
-          프로필 정보 입력 (5개 필드)
+          프로필 정보 입력 (6개 필드)
         </h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -199,7 +199,7 @@ export default function ProfileForm() {
         
         <ProgressIndicator 
           completedFields={completedFieldsCount}
-          totalFields={5}
+          totalFields={6}
           isComplete={isProfileComplete()}
         />
       </div>

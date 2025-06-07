@@ -1,5 +1,5 @@
 /**
- * 역할: 사이드바 네비게이션 컴포넌트
+ * 역할: 네비게이션 사이드바 컴포넌트
  * 연결: components/layout/ClientLayout.tsx에서 사용
  * 의존성: Next.js router
  * 기능: 메뉴 항목 표시 및 페이지 이동
@@ -7,7 +7,7 @@
 
 'use client';
 
-interface SidebarProps {
+interface NavigationSidebarProps {
   onNavigate: (path: string) => void;
 }
 
@@ -21,7 +21,7 @@ const menuItems = [
   { path: '/applications', label: '신규 신청' }
 ];
 
-export default function Sidebar({ onNavigate }: SidebarProps) {
+export default function NavigationSidebar({ onNavigate }: NavigationSidebarProps) {
   return (
     <aside className="w-[18vw] h-full bg-gray-100 border-r border-gray-300">
       <div className="p-4 border-b border-gray-300">
