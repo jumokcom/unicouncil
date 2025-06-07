@@ -14,7 +14,7 @@ import MainHeader from './MainHeader';
 import MobileHeader from './MobileHeader';
 import NavigationSidebar from './NavigationSidebar';
 
-const excludeLayoutPaths = ['/login', '/auth/callback'];
+const excludeLayoutPaths = ['/login', '/auth/callback', '/', '/profile'];
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
