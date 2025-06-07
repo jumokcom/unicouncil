@@ -8,5 +8,10 @@
 
 export default function AlbumDetailPage({ params }: { params: { id: string } }) {
   // 개별 앨범 상세 구현 예정
-  return <div>Album Detail Page</div>
+  return (
+    <div>
+      <h1>Album Detail Page</h1>
+      <p>Album ID: {params.id}</p>
+    </div>
+  )
 }
