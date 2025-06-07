@@ -25,7 +25,7 @@ export default function AuthenticationButtons({
   onNavigate, 
   isMobile = false 
 }: AuthenticationButtonsProps) {
-  const { handleLogout } = useAuthActions();
+  const { handleLogout } = useAuthActions(onNavigate);
 
   // 로딩 상태
   if (loading) {

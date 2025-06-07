@@ -21,14 +21,16 @@ export default function LoginForm() {
         background: "linear-gradient(to bottom right, #68e1fe, #ccfff0)",
       }}
     >
-      {/* 우측 상단 인증 버튼 */}
-      <div className="absolute top-4 right-4 z-10">
-        <AuthenticationButtons 
-          user={user} 
-          loading={false} 
-          onNavigate={handleNavigation}
-        />
-      </div>
+      {/* 로그인한 사용자만 우측 상단 버튼 표시 */}
+      {user && (
+        <div className="absolute top-4 right-4 z-10">
+          <AuthenticationButtons 
+            user={user} 
+            loading={false} 
+            onNavigate={handleNavigation}
+          />
+        </div>
+      )}
 
       <div className="text-center text-gray-800 max-w-sm w-full">
         {/* 로고 및 타이틀 섹션 (재사용) */}

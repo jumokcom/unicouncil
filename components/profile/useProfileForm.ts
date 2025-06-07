@@ -108,12 +108,18 @@ export function useProfileForm(user: User) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // 취소 처리 (메인 페이지로 이동)
+  const handleCancel = () => {
+    router.push('/');
+  };
+
   return {
     formData,
     loading,
     isProfileComplete,
     completedFieldsCount,
     handleSubmit,
-    handleChange
+    handleChange,
+    handleCancel
   };
 }

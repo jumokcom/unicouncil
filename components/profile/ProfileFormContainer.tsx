@@ -1,15 +1,15 @@
 /**
  * 역할: 프로필 폼 컨테이너 컴포넌트
  * 연결: components/profile/ProfileForm.tsx에서 사용
- * 의존성: FormField.tsx, ProgressIndicator.tsx, useProfileForm.ts, ProfileSaveButton.tsx
- * 기능: 프로필 폼 UI 렌더링
+ * 의존성: FormField.tsx, ProgressIndicator.tsx, useProfileForm.ts, ProfileActionButtons.tsx
+ * 기능: 프로필 폼 UI 렌더링 (저장/취소 버튼 포함)
  */
 
 'use client';
 import { User } from '@supabase/supabase-js';
 import FormField from './FormField';
 import ProgressIndicator from './ProgressIndicator';
-import ProfileSaveButton from './ProfileSaveButton';
+import ProfileActionButtons from './ProfileActionButtons';
 import { useProfileForm } from './useProfileForm';
 
 const genderOptions = [
@@ -28,7 +28,8 @@ export default function ProfileFormContainer({ user }: ProfileFormContainerProps
     isProfileComplete,
     completedFieldsCount,
     handleSubmit,
-    handleChange
+    handleChange,
+    handleCancel
   } = useProfileForm(user);
 
   return (
@@ -92,10 +93,11 @@ export default function ProfileFormContainer({ user }: ProfileFormContainerProps
           required
         />
 
-        <ProfileSaveButton
+        <ProfileActionButtons
           loading={loading}
           disabled={!isProfileComplete() || loading}
           onSubmit={handleSubmit}
+          onCancel={handleCancel}
         />
       </form>
       
