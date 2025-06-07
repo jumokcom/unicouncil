@@ -18,7 +18,7 @@ interface ProfileData {
   student_id?: string;
   birth_date?: string;
   phone?: string;
-  gender?: string;
+  gender?: 'male' | 'female';
 }
 
 export default function LoginPage() {

@@ -19,7 +19,7 @@ interface FormData {
   student_id: string;
   birth_date: string;
   phone: string;
-  gender: string;
+  gender: 'male' | 'female' | '';
 }
 
 export default function ProfilePage() {
@@ -228,17 +228,6 @@ export default function ProfilePage() {
                   className="mr-2"
                 />
                 여성
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="other"
-                  checked={formData.gender === 'other'}
-                  onChange={(e) => handleChange('gender', e.target.value)}
-                  className="mr-2"
-                />
-                기타
               </label>
             </div>
           </div>
