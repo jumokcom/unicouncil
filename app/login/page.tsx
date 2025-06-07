@@ -1,52 +1,106 @@
 /**
  * 역할: 로그인 페이지 - Supabase OAuth를 사용한 소셜 로그인
- * 연결: app/layout.tsx에서 라우팅, components/layout/auth-guard.tsx와 연동
- * 의존성: @supabase/supabase-js, GitHub/Google OAuth 설정
- * Supabase 기능: Auth (signInWithOAuth)
+ * 연결: app/layout.tsx에서 라우팅, app/auth/callback에서 OAuth 콜백 처리
+ * 의존성: @supabase/supabase-js, lib/supabase.ts
+ * Supabase 기능: Auth (signInWithOAuth), Database (프로필 완성 여부 체크)
+ * 로그인 후: 프로필 미완성 시 /profile, 완성 시 / 로 리다이렉트
  */
 
-'use client';
-import { supabase } from '@/lib/supabase';
-import { useState } from 'react';
-import Image from 'next/image';
+"use client";
+import { supabase } from "@/lib/supabase";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  // 프로필 완성 여부 체크 함수 (이메일 제외, 5개 필드)
+  const checkProfileComplete = (profile: any) => {
+    return profile?.name && 
+           profile?.department && 
+           profile?.student_id && 
+           profile?.birth_date && 
+           profile?.phone && 
+           profile?.gender;
+  };
+
+  // 로그인 상태 체크 (페이지 로드 시)
+  useEffect(() => {
+    const checkAuthState = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session) {
+        // 이미 로그인된 상태면 프로필 체크 후 리다이렉트
+        await handlePostLogin(session.user.id);
+      }
+    };
+    
+    checkAuthState();
+  }, []);
+
+  // 로그인 후 처리 함수
+  const handlePostLogin = async (userId: string) => {
+    try {
+      // users 테이블에서 프로필 정보 조회 (이메일 제외)
+      const { data: profile, error } = await supabase
+        .from('users')
+        .select('name, department, student_id, birth_date, phone, gender')
+        .eq('id', userId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') { // PGRST116: 데이터 없음
+        console.error('프로필 조회 오류:', error);
+        return;
+      }
+
+      if (!profile || !checkProfileComplete(profile)) {
+        // 프로필 미완성 -> 프로필 페이지로
+        router.push('/profile');
+      } else {
+        // 프로필 완성 -> 홈으로
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('로그인 후 처리 오류:', error);
+    }
+  };
 
   const handleKakaoLogin = async () => {
     try {
       setLoading(true);
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'kakao',
+        provider: "kakao",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
-      
+
       if (error) {
-        console.error('로그인 오류:', error.message);
-        alert('로그인 중 오류가 발생했습니다.');
+        console.error("로그인 오류:", error.message);
+        alert("로그인 중 오류가 발생했습니다.");
       }
     } catch (error) {
-      console.error('카카오 로그인 오류:', error);
-      alert('로그인 중 오류가 발생했습니다.');
+      console.error("카카오 로그인 오류:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center px-6"
       style={{
-        background: 'linear-gradient(to bottom right, #68e1fe, #ccfff0)'
+        background: "linear-gradient(to bottom right, #68e1fe, #ccfff0)",
       }}
     >
       <div className="text-center text-gray-800 max-w-sm w-full">
         {/* 로고 */}
         <div className="mb-6 md:mb-8">
-          <Image 
+          <Image
             src="/images/coma-logo.png"
             alt="COMA 로고"
             width={250}
@@ -54,7 +108,7 @@ export default function LoginPage() {
             className="mx-auto mb-4 md:mb-6"
             priority
           />
-          
+
           {/* 동아리 정보 */}
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-800">
             COMA
@@ -62,9 +116,9 @@ export default function LoginPage() {
           <p className="text-base md:text-lg text-gray-700 mb-1">
             순천대학교 코딩동아리
           </p>
-          <p 
+          <p
             className="text-lg md:text-xl font-semibold mb-8 md:mb-10"
-            style={{ color: '#68e1fe' }}
+            style={{ color: "#68e1fe" }}
           >
             CODING MASTER
           </p>
@@ -87,21 +141,22 @@ export default function LoginPage() {
               border-2
             "
             style={{
-              background: loading 
-                ? '#b2fff9' 
-                : 'linear-gradient(to right, #68e1fe, #b2fff9)',
-              borderColor: '#000000'
+              background: loading
+                ? "#b2fff9"
+                : "linear-gradient(to right, #68e1fe, #b2fff9)",
+              borderColor: "#000000",
             }}
             onMouseEnter={(e) => {
               if (!loading) {
-                e.currentTarget.style.background = '#b2fff9';
-                e.currentTarget.style.borderColor = '#333333';
+                e.currentTarget.style.background = "#b2fff9";
+                e.currentTarget.style.borderColor = "#333333";
               }
             }}
             onMouseLeave={(e) => {
               if (!loading) {
-                e.currentTarget.style.background = 'linear-gradient(to right, #68e1fe, #b2fff9)';
-                e.currentTarget.style.borderColor = '#000000';
+                e.currentTarget.style.background =
+                  "linear-gradient(to right, #68e1fe, #b2fff9)";
+                e.currentTarget.style.borderColor = "#000000";
               }
             }}
           >

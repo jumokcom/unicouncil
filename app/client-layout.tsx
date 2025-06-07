@@ -51,7 +51,7 @@ export default function ClientLayout({
           </div>
           <nav className="p-4">
             <div className="space-y-2 text-sm text-gray-600">
-              <div className="p-2 bg-blue-100 rounded">대시보드</div>
+              <div className="p-2 bg-blue-100 rounded">홈</div>
               <div className="p-2 hover:bg-gray-200 rounded">부원 관리</div>
               <div className="p-2 hover:bg-gray-200 rounded">일정 캘린더</div>
               <div className="p-2 hover:bg-gray-200 rounded">동아리방</div>
@@ -67,7 +67,7 @@ export default function ClientLayout({
           {/* PC 헤더: 10% */}
           <header className="h-[10vh] bg-white border-b border-gray-300 flex items-center px-6">
             <div className="flex items-center space-x-4">
-              <h2 className="text-lg font-semibold text-gray-800">대시보드</h2>
+              <h2 className="text-lg font-semibold text-gray-800">홈</h2>
               <span className="text-sm text-gray-500">/ 홈</span>
             </div>
             <div className="ml-auto flex items-center space-x-4">
