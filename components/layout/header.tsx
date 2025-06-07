@@ -1,11 +1,33 @@
 /**
- * 역할: 상단 헤더 컴포넌트 - 네비게이션 및 사용자 정보 표시
- * 연결: app/layout.tsx에서 전체 페이지에 적용, components/ui/button.tsx 사용
- * 의존성: lib/supabase.ts (사용자 정보), constants/routes.ts (네비게이션)
- * Supabase 기능: Auth (사용자 상태 확인, 로그아웃)
+ * 역할: PC용 헤더 컴포넌트
+ * 연결: components/layout/ClientLayout.tsx에서 사용
+ * 의존성: components/layout/AuthButtons.tsx
+ * 기능: 페이지 제목 표시 및 인증 버튼
  */
 
-// 헤더 네비게이션 구현 예정
-export function Header() {
-  return <header>Header Component</header>
+'use client';
+import { User } from '@supabase/supabase-js';
+import AuthButtons from './AuthButtons';
+
+interface HeaderProps {
+  user: User | null;
+  loading: boolean;
+  onNavigate: (path: string) => void;
+}
+
+export default function Header({ user, loading, onNavigate }: HeaderProps) {
+  return (
+    <header className="h-[10vh] bg-white border-b border-gray-300 flex items-center px-6">
+      <div className="flex items-center space-x-4">
+        <h2 className="text-lg font-semibold text-gray-800">홈</h2>
+        <span className="text-sm text-gray-500">/ 홈</span>
+      </div>
+      <AuthButtons 
+        user={user} 
+        loading={loading} 
+        onNavigate={onNavigate} 
+        isMobile={false}
+      />
+    </header>
+  );
 }

@@ -5,7 +5,5 @@
  * 포함: Header, Sidebar, AuthGuard 등 레이아웃 및 보안 컴포넌트
  */
 
-// 레이아웃 컴포넌트들을 이곳에서 export
-export { Header } from './header'
-export { Sidebar } from './sidebar'
+// AuthGuard만 export (다른 것들은 직접 import 사용)
 export { AuthGuard } from './auth-guard'
