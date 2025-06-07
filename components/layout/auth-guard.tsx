@@ -11,5 +11,12 @@ export function AuthGuard({ children, requiredRole }: {
   children: React.ReactNode, 
   requiredRole?: string 
 }) {
-  return <div>Auth Guard Component</div>
+  // TODO: Supabase Auth 구현 예정
+  // - 로그인 상태 확인
+  // - 권한 레벨 체크 
+  // - 미인증 시 로그인 페이지 리다이렉트
+  
+  console.log('Required role:', requiredRole); // 임시로 사용
+  
+  return <>{children}</>
 }
