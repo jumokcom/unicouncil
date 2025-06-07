@@ -50,9 +50,8 @@ export default function ClientLayout({
     if (error) {
       console.error('로그아웃 오류:', error)
       alert('로그아웃 중 오류가 발생했습니다.')
-    } else {
-      router.push('/login')
     }
+    // 로그아웃 후 메인 페이지에 그대로 머물기 (리다이렉트 없음)
   }
 
   // 페이지 이동 함수
