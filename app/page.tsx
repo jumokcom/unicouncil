@@ -1,103 +1,42 @@
-import Image from "next/image";
+/**
+ * 역할: 홈 페이지 - 크기 확인용 임시 콘텐츠
+ * 연결: app/layout.tsx에서 기본 라우트
+ * 목적: 레이아웃 비율 확인 및 스크롤 테스트
+ */
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="space-y-6">
+      {/* 크기 확인용 제목 */}
+      <div className="bg-white rounded-lg p-6 shadow">
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">동아리 관리 시스템</h1>
+        <p className="text-gray-600">레이아웃 크기 확인용 페이지입니다.</p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* 스크롤 확인용 카드들 */}
+      {Array.from({ length: 20 }, (_, i) => (
+        <div key={i} className="bg-white rounded-lg p-4 shadow">
+          <h3 className="font-semibold text-gray-800">카드 {i + 1}</h3>
+          <p className="text-gray-600 mt-2">
+            스크롤 테스트를 위한 콘텐츠입니다. 
+            이 카드들이 많아지면 메인 영역에서 스크롤이 생깁니다.
+          </p>
+          <div className="mt-3 flex space-x-2">
+            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">태그1</span>
+            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">태그2</span>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ))}
+
+      {/* 크기 정보 표시 */}
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <h3 className="font-semibold text-yellow-800">📏 레이아웃 크기 정보</h3>
+        <div className="mt-2 text-sm text-yellow-700 space-y-1">
+          <div><strong>모바일:</strong> 헤더 12vh + 메인 88vh</div>
+          <div><strong>PC:</strong> 사이드바 18vw + (헤더 10vh + 메인 90vh)</div>
+          <div><strong>분기점:</strong> md (768px)</div>
+        </div>
+      </div>
     </div>
   );
 }

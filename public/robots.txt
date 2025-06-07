@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# UniCouncils - University Council Management System
+Sitemap: /sitemap.xml
